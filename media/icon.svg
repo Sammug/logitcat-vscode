@@ -1,58 +1,140 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
   <defs>
-    <!-- Deep blue glow for eyes -->
-    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="2.5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <!-- Soft inner shadow on face -->
-    <radialGradient id="faceGrad" cx="50%" cy="42%" r="56%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#dde8f8"/>
+
+    <!-- Background gradient — deep centre, darker edges -->
+    <radialGradient id="bgGrad" cx="50%" cy="45%" r="65%">
+      <stop offset="0%"   stop-color="#122040"/>
+      <stop offset="100%" stop-color="#060d1c"/>
     </radialGradient>
+
+    <!-- Log line gradients — fade in/out at edges -->
+    <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#3a8fd4" stop-opacity="0"/>
+      <stop offset="12%"  stop-color="#3a8fd4" stop-opacity="0.55"/>
+      <stop offset="88%"  stop-color="#3a8fd4" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#3a8fd4" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#4da8e8" stop-opacity="0"/>
+      <stop offset="12%"  stop-color="#4da8e8" stop-opacity="0.75"/>
+      <stop offset="88%"  stop-color="#4da8e8" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#4da8e8" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="lg3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#5bb8f5" stop-opacity="0"/>
+      <stop offset="12%"  stop-color="#5bb8f5" stop-opacity="1"/>
+      <stop offset="88%"  stop-color="#5bb8f5" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#5bb8f5" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Alert badge gradient -->
+    <radialGradient id="badgeGrad" cx="38%" cy="35%" r="60%">
+      <stop offset="0%"   stop-color="#ff6b6b"/>
+      <stop offset="100%" stop-color="#c0392b"/>
+    </radialGradient>
+
+    <!-- Cursor bar gradient -->
+    <linearGradient id="cursorGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#5bb8f5" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#5bb8f5" stop-opacity="1"/>
+      <stop offset="80%"  stop-color="#5bb8f5" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#5bb8f5" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Strong white glow for EKG spike -->
+    <filter id="spikeGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="2.8" result="blur1"/>
+      <feGaussianBlur stdDeviation="1.2" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Soft glow for lines and badge -->
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Badge shadow -->
+    <filter id="badgeShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#ff3333" flood-opacity="0.6"/>
+    </filter>
+
   </defs>
 
-  <!-- ── Background: deep navy rounded square ── -->
-  <rect width="128" height="128" rx="22" fill="#0a1628"/>
+  <!-- ══ Background ══ -->
+  <rect width="128" height="128" rx="22" fill="url(#bgGrad)"/>
 
-  <!-- ── Left ear (triangle + inner highlight) ── -->
-  <polygon points="24,62 16,14 56,46" fill="white"/>
-  <polygon points="26,58 21,22 50,44" fill="#c8d8f0" opacity="0.5"/>
+  <!-- Subtle inner border -->
+  <rect x="1" y="1" width="126" height="126" rx="21.5"
+        fill="none" stroke="#1e3a5f" stroke-width="1" opacity="0.6"/>
 
-  <!-- ── Right ear ── -->
-  <polygon points="104,62 112,14 72,46" fill="white"/>
-  <polygon points="102,58 107,22 78,44" fill="#c8d8f0" opacity="0.5"/>
+  <!-- ══ Log lines ══ -->
 
-  <!-- ── Face circle ── -->
-  <circle cx="64" cy="72" r="38" fill="url(#faceGrad)"/>
+  <!-- Line 1 — top, dim -->
+  <rect x="14" y="23" width="86" height="4" rx="2" fill="url(#lg1)"/>
+  <!-- Short segment on same row -->
+  <rect x="104" y="23" width="12" height="4" rx="2" fill="url(#lg1)" opacity="0.5"/>
 
-  <!-- ── Left eye (cat-eye almond shape) ── -->
-  <ellipse cx="49" cy="66" rx="9" ry="7" fill="#0a1628"/>
-  <!-- Vertical slit pupil -->
-  <ellipse cx="49" cy="66" rx="3.5" ry="7" fill="#071020"/>
-  <!-- Eye shine -->
-  <circle cx="52" cy="63" r="2.2" fill="white" opacity="0.85"/>
+  <!-- Line 2 -->
+  <rect x="14" y="35" width="96" height="4.5" rx="2.25" fill="url(#lg2)" opacity="0.85"/>
+  <rect x="14" y="35" width="60" height="4.5" rx="2.25" fill="url(#lg2)" opacity="0.35"/>
 
-  <!-- ── Right eye ── -->
-  <ellipse cx="79" cy="66" rx="9" ry="7" fill="#0a1628"/>
-  <ellipse cx="79" cy="66" rx="3.5" ry="7" fill="#071020"/>
-  <circle cx="82" cy="63" r="2.2" fill="white" opacity="0.85"/>
+  <!-- Line 3 — ALERT LINE (centre) — interrupted by spike -->
+  <!-- Left segment -->
+  <rect x="14" y="56" width="28" height="5" rx="2.5" fill="url(#lg3)" filter="url(#softGlow)"/>
+  <!-- Right segment -->
+  <rect x="82" y="56" width="32" height="5" rx="2.5" fill="url(#lg3)" opacity="0.8" filter="url(#softGlow)"/>
 
-  <!-- ── Nose: terminal › cursor ── -->
-  <path d="M60,79 L67,83.5 L60,88"
-        fill="none" stroke="#0a1628" stroke-width="2.8"
-        stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- ══ EKG / heartbeat spike (white, glowing) ══ -->
+  <!-- Outer glow layer (wider, more transparent) -->
+  <polyline
+    points="42,58.5  50,58.5  54,62  59,18  64,92  69,58.5  74,62  78,55  82,58.5"
+    fill="none"
+    stroke="white"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.18"
+  />
+  <!-- Core spike (sharp, bright white) -->
+  <polyline
+    points="42,58.5  50,58.5  54,62  59,18  64,92  69,58.5  74,62  78,55  82,58.5"
+    fill="none"
+    stroke="white"
+    stroke-width="2.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#spikeGlow)"
+  />
 
-  <!-- ── Whiskers (styled as log lines) ── -->
-  <!-- Left whiskers -->
-  <line x1="14" y1="71" x2="44" y2="74" stroke="#0a1628" stroke-width="1.4" stroke-linecap="round" opacity="0.35"/>
-  <line x1="14" y1="78" x2="44" y2="78" stroke="#0a1628" stroke-width="1.4" stroke-linecap="round" opacity="0.25"/>
-  <line x1="14" y1="85" x2="44" y2="82" stroke="#0a1628" stroke-width="1.4" stroke-linecap="round" opacity="0.15"/>
-  <!-- Right whiskers -->
-  <line x1="84" y1="74" x2="114" y2="71" stroke="#0a1628" stroke-width="1.4" stroke-linecap="round" opacity="0.35"/>
-  <line x1="84" y1="78" x2="114" y2="78" stroke="#0a1628" stroke-width="1.4" stroke-linecap="round" opacity="0.25"/>
-  <line x1="84" y1="82" x2="114" y2="85" stroke="#0a1628" stroke-width="1.4" stroke-linecap="round" opacity="0.15"/>
+  <!-- Line 4 -->
+  <rect x="14" y="76" width="96" height="4.5" rx="2.25" fill="url(#lg2)" opacity="0.7"/>
+  <rect x="14" y="76" width="52" height="4.5" rx="2.25" fill="url(#lg2)" opacity="0.3"/>
 
-  <!-- ── Blinking cursor bar at chin — the "logi" accent ── -->
-  <rect x="52" y="98" width="24" height="4" rx="2" fill="#4fc3f7" opacity="0.9" filter="url(#glow)"/>
+  <!-- Line 5 — bottom, fading -->
+  <rect x="14" y="88" width="72" height="4" rx="2" fill="url(#lg1)" opacity="0.5"/>
+  <rect x="14" y="88" width="36" height="4" rx="2" fill="url(#lg1)" opacity="0.2"/>
+
+  <!-- ══ Alert badge ══ -->
+  <!-- Outer glow ring -->
+  <circle cx="104" cy="22" r="13" fill="#c0392b" opacity="0.2" filter="url(#softGlow)"/>
+  <!-- Badge circle -->
+  <circle cx="104" cy="22" r="10.5" fill="url(#badgeGrad)" filter="url(#badgeShadow)"/>
+  <!-- Thin border -->
+  <circle cx="104" cy="22" r="10.5" fill="none" stroke="#ff9999" stroke-width="0.8" opacity="0.5"/>
+  <!-- Exclamation mark -->
+  <rect x="103.2" y="16.5" width="1.6" height="7" rx="0.8" fill="white"/>
+  <circle cx="104" cy="26.5" r="1.1" fill="white"/>
+
+  <!-- ══ Cursor bar (bottom accent) ══ -->
+  <rect x="38" y="107" width="52" height="4.5" rx="2.25"
+        fill="url(#cursorGrad)" filter="url(#softGlow)"/>
+
 </svg>
