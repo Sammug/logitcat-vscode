@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import { Alert } from './types';
 
 /**
- * SSEClient connects to the logwatch /api/events endpoint and emits
+ * SSEClient connects to the logitcat /api/events endpoint and emits
  * 'alert' events for each incoming alert. Reconnects automatically.
  */
 export class SSEClient extends EventEmitter {

@@ -37,7 +37,7 @@ exports.SSEClient = void 0;
 const http = __importStar(require("http"));
 const events_1 = require("events");
 /**
- * SSEClient connects to the logwatch /api/events endpoint and emits
+ * SSEClient connects to the logitcat /api/events endpoint and emits
  * 'alert' events for each incoming alert. Reconnects automatically.
  */
 class SSEClient extends events_1.EventEmitter {

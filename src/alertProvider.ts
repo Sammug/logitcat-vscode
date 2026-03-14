@@ -27,7 +27,7 @@ export class AlertItem extends vscode.TreeItem {
 
         // Click → open detail panel
         this.command = {
-            command:   'logwatch.showDetail',
+            command:   'logitcat.showDetail',
             title:     'Show Alert Detail',
             arguments: [this]
         };

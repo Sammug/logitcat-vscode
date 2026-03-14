@@ -33,24 +33,24 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LogwatchStatusBar = void 0;
+exports.LogitcatStatusBar = void 0;
 const vscode = __importStar(require("vscode"));
-class LogwatchStatusBar {
+class LogitcatStatusBar {
     constructor() {
         this.item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-        this.item.command = 'logwatch.openDashboard';
+        this.item.command = 'logitcat.openDashboard';
         this.setOffline();
         this.item.show();
     }
     setOffline() {
-        this.item.text = '$(circle-slash) logwatch';
-        this.item.tooltip = 'logwatch: not running — click to open dashboard';
+        this.item.text = '$(circle-slash) logitcat';
+        this.item.tooltip = 'logitcat: not running — click to open dashboard';
         this.item.color = new vscode.ThemeColor('statusBarItem.warningForeground');
         this.item.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
     }
     setConnecting() {
-        this.item.text = '$(loading~spin) logwatch';
-        this.item.tooltip = 'logwatch: connecting…';
+        this.item.text = '$(loading~spin) logitcat';
+        this.item.tooltip = 'logitcat: connecting…';
         this.item.color = undefined;
         this.item.backgroundColor = undefined;
     }
@@ -59,8 +59,8 @@ class LogwatchStatusBar {
         const label = alertCount > 0
             ? `${alertCount} alert${alertCount !== 1 ? 's' : ''}`
             : 'watching';
-        this.item.text = `${icon} logwatch: ${label}`;
-        this.item.tooltip = `logwatch running — ${alertCount} alerts (${criticalCount} critical)\nClick to open dashboard`;
+        this.item.text = `${icon} logitcat: ${label}`;
+        this.item.tooltip = `logitcat running — ${alertCount} alerts (${criticalCount} critical)\nClick to open dashboard`;
         this.item.color = criticalCount > 0
             ? new vscode.ThemeColor('errorForeground')
             : undefined;
@@ -72,5 +72,5 @@ class LogwatchStatusBar {
         this.item.dispose();
     }
 }
-exports.LogwatchStatusBar = LogwatchStatusBar;
+exports.LogitcatStatusBar = LogitcatStatusBar;
 //# sourceMappingURL=statusBar.js.map

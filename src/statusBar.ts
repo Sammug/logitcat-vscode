@@ -1,25 +1,25 @@
 import * as vscode from 'vscode';
 
-export class LogwatchStatusBar {
+export class LogitcatStatusBar {
     private item: vscode.StatusBarItem;
 
     constructor() {
         this.item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-        this.item.command = 'logwatch.openDashboard';
+        this.item.command = 'logitcat.openDashboard';
         this.setOffline();
         this.item.show();
     }
 
     setOffline(): void {
-        this.item.text        = '$(circle-slash) logwatch';
-        this.item.tooltip     = 'logwatch: not running — click to open dashboard';
+        this.item.text        = '$(circle-slash) logitcat';
+        this.item.tooltip     = 'logitcat: not running — click to open dashboard';
         this.item.color       = new vscode.ThemeColor('statusBarItem.warningForeground');
         this.item.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
     }
 
     setConnecting(): void {
-        this.item.text        = '$(loading~spin) logwatch';
-        this.item.tooltip     = 'logwatch: connecting…';
+        this.item.text        = '$(loading~spin) logitcat';
+        this.item.tooltip     = 'logitcat: connecting…';
         this.item.color       = undefined;
         this.item.backgroundColor = undefined;
     }
@@ -30,8 +30,8 @@ export class LogwatchStatusBar {
             ? `${alertCount} alert${alertCount !== 1 ? 's' : ''}`
             : 'watching';
 
-        this.item.text        = `${icon} logwatch: ${label}`;
-        this.item.tooltip     = `logwatch running — ${alertCount} alerts (${criticalCount} critical)\nClick to open dashboard`;
+        this.item.text        = `${icon} logitcat: ${label}`;
+        this.item.tooltip     = `logitcat running — ${alertCount} alerts (${criticalCount} critical)\nClick to open dashboard`;
         this.item.color       = criticalCount > 0
             ? new vscode.ThemeColor('errorForeground')
             : undefined;

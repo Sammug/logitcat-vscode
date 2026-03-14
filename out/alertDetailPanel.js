@@ -60,7 +60,7 @@ class AlertDetailPanel {
         AlertDetailPanel.current = new AlertDetailPanel(alert, extensionUri);
     }
     constructor(alert, _extensionUri) {
-        this.panel = vscode.window.createWebviewPanel('logwatch.alertDetail', 'Alert Detail', { viewColumn: vscode.ViewColumn.Two, preserveFocus: true }, { enableScripts: true, retainContextWhenHidden: true });
+        this.panel = vscode.window.createWebviewPanel('logitcat.alertDetail', 'Alert Detail', { viewColumn: vscode.ViewColumn.Two, preserveFocus: true }, { enableScripts: true, retainContextWhenHidden: true });
         this.panel.onDidDispose(() => {
             AlertDetailPanel.current = undefined;
         });

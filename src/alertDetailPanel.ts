@@ -33,7 +33,7 @@ export class AlertDetailPanel {
 
     private constructor(alert: Alert, _extensionUri: vscode.Uri) {
         this.panel = vscode.window.createWebviewPanel(
-            'logwatch.alertDetail',
+            'logitcat.alertDetail',
             'Alert Detail',
             { viewColumn: vscode.ViewColumn.Two, preserveFocus: true },
             { enableScripts: true, retainContextWhenHidden: true }

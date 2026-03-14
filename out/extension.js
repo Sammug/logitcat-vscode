@@ -47,21 +47,21 @@ let sse;
 let provider;
 let statusBar;
 function activate(context) {
-    const cfg = () => vscode.workspace.getConfiguration('logwatch');
+    const cfg = () => vscode.workspace.getConfiguration('logitcat');
     // ── Init provider + status bar ──────────────────────────────────
     provider = new alertProvider_1.AlertProvider(cfg().get('maxAlerts', 200));
-    statusBar = new statusBar_1.LogwatchStatusBar();
-    const treeView = vscode.window.createTreeView('logwatch.alerts', {
+    statusBar = new statusBar_1.LogitcatStatusBar();
+    const treeView = vscode.window.createTreeView('logitcat.alerts', {
         treeDataProvider: provider,
         showCollapseAll: false,
     });
     // ── Connect to running daemon (if any) ──────────────────────────
     startSSE(cfg().get('dashboardPort', 9090));
     // ── Commands ────────────────────────────────────────────────────
-    context.subscriptions.push(vscode.commands.registerCommand('logwatch.start', async () => {
+    context.subscriptions.push(vscode.commands.registerCommand('logitcat.start', async () => {
         const execPath = resolveExecutable(cfg().get('executablePath', ''));
         if (!execPath) {
-            vscode.window.showErrorMessage('logwatch: binary not found. Set logwatch.executablePath in settings.');
+            vscode.window.showErrorMessage('logitcat: binary not found. Set logitcat.executablePath in settings.');
             return;
         }
         const configPath = resolveConfig(cfg().get('configPath', ''));
@@ -69,47 +69,47 @@ function activate(context) {
             const picked = await vscode.window.showOpenDialog({
                 canSelectFiles: true,
                 filters: { 'INI config': ['ini'] },
-                openLabel: 'Select logwatch config'
+                openLabel: 'Select logitcat config'
             });
             if (!picked?.length) {
                 return;
             }
         }
         const port = cfg().get('dashboardPort', 9090);
-        const config = configPath || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath + '/logwatch.ini';
+        const config = configPath || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath + '/logitcat.ini';
         const terminal = vscode.window.createTerminal({
-            name: 'logwatch',
+            name: 'logitcat',
             iconPath: new vscode.ThemeIcon('eye'),
         });
         terminal.sendText(`"${execPath}" start "${config}"`);
         terminal.show(true);
         setTimeout(() => startSSE(port), 2000);
-        vscode.window.showInformationMessage('logwatch starting…');
-    }), vscode.commands.registerCommand('logwatch.stop', async () => {
+        vscode.window.showInformationMessage('logitcat starting…');
+    }), vscode.commands.registerCommand('logitcat.stop', async () => {
         const execPath = resolveExecutable(cfg().get('executablePath', ''));
         if (execPath) {
-            const terminal = vscode.window.createTerminal({ name: 'logwatch' });
+            const terminal = vscode.window.createTerminal({ name: 'logitcat' });
             terminal.sendText(`"${execPath}" stop`);
         }
         sse?.disconnect();
         statusBar?.setOffline();
-        vscode.window.showInformationMessage('logwatch stopped.');
-    }), vscode.commands.registerCommand('logwatch.openDashboard', () => {
+        vscode.window.showInformationMessage('logitcat stopped.');
+    }), vscode.commands.registerCommand('logitcat.openDashboard', () => {
         dashboardPanel_1.DashboardPanel.show(cfg().get('dashboardPort', 9090), context.extensionUri);
-    }), vscode.commands.registerCommand('logwatch.clearAlerts', () => {
+    }), vscode.commands.registerCommand('logitcat.clearAlerts', () => {
         provider?.clear();
         statusBar?.setRunning(0, 0);
-    }), vscode.commands.registerCommand('logwatch.showDetail', (item) => {
+    }), vscode.commands.registerCommand('logitcat.showDetail', (item) => {
         if (item?.alert) {
             alertDetailPanel_1.AlertDetailPanel.show(item.alert, context.extensionUri);
         }
-    }), vscode.commands.registerCommand('logwatch.copyMessage', async (item) => {
+    }), vscode.commands.registerCommand('logitcat.copyMessage', async (item) => {
         const text = item?.alert?.message;
         if (text) {
             await vscode.env.clipboard.writeText(text);
             vscode.window.showInformationMessage('Message copied.');
         }
-    }), vscode.commands.registerCommand('logwatch.copyRaw', async (item) => {
+    }), vscode.commands.registerCommand('logitcat.copyRaw', async (item) => {
         const text = item?.alert?.raw || item?.alert?.message;
         if (text) {
             await vscode.env.clipboard.writeText(text);
@@ -130,16 +130,16 @@ function startSSE(port) {
     sse = new sseClient_1.SSEClient(port);
     sse.on('connected', () => {
         statusBar?.setRunning(provider?.count ?? 0, provider?.criticalCount() ?? 0);
-        vscode.window.setStatusBarMessage('$(pass) logwatch connected', 3000);
+        vscode.window.setStatusBarMessage('$(pass) logitcat connected', 3000);
     });
     sse.on('alert', (alert) => {
         provider?.push(alert);
         statusBar?.setRunning(provider?.count ?? 0, provider?.criticalCount() ?? 0);
         // Show notification for CRITICAL alerts
         if (alert.severity === 'CRITICAL') {
-            vscode.window.showWarningMessage(`🚨 logwatch [${alert.rule}]: ${alert.message}`, 'Open Dashboard').then(action => {
+            vscode.window.showWarningMessage(`🚨 logitcat [${alert.rule}]: ${alert.message}`, 'Open Dashboard').then(action => {
                 if (action === 'Open Dashboard') {
-                    vscode.commands.executeCommand('logwatch.openDashboard');
+                    vscode.commands.executeCommand('logitcat.openDashboard');
                 }
             });
         }
@@ -155,9 +155,9 @@ function resolveExecutable(configured) {
     }
     // Common locations
     const candidates = [
-        '/tmp/logwatch',
-        '/usr/local/bin/logwatch',
-        path.join(process.env.HOME ?? '', '.local/bin/logwatch'),
+        '/tmp/logitcat',
+        '/usr/local/bin/logitcat',
+        path.join(process.env.HOME ?? '', '.local/bin/logitcat'),
     ];
     return candidates.find(p => fs.existsSync(p));
 }
@@ -169,9 +169,9 @@ function resolveConfig(configured) {
     const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
     if (workspaceRoot) {
         const candidates = [
-            path.join(workspaceRoot, 'logwatch.ini'),
-            path.join(workspaceRoot, '.logwatch.ini'),
-            path.join(workspaceRoot, 'config', 'logwatch.ini'),
+            path.join(workspaceRoot, 'logitcat.ini'),
+            path.join(workspaceRoot, '.logitcat.ini'),
+            path.join(workspaceRoot, 'config', 'logitcat.ini'),
         ];
         return candidates.find(p => fs.existsSync(p));
     }

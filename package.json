@@ -1,6 +1,6 @@
 {
-  "name": "logwatch",
-  "displayName": "logwatch",
+  "name": "logitcat",
+  "displayName": "logitcat",
   "description": "Real-time log parsing and alerting inside VS Code",
   "version": "0.1.0",
   "publisher": "sammug",
@@ -10,71 +10,71 @@
   "activationEvents": ["onStartupFinished"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Sammug/logwatch-vscode"
+    "url": "https://github.com/Sammug/logitcat-vscode"
   },
   "license": "MIT",
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
-      { "command": "logwatch.start",         "title": "Start",          "category": "logwatch", "icon": "$(play)" },
-      { "command": "logwatch.stop",          "title": "Stop",           "category": "logwatch", "icon": "$(stop)" },
-      { "command": "logwatch.openDashboard", "title": "Open Dashboard", "category": "logwatch", "icon": "$(browser)" },
-      { "command": "logwatch.clearAlerts",   "title": "Clear Alerts",   "category": "logwatch", "icon": "$(trash)" },
-      { "command": "logwatch.copyMessage",   "title": "Copy Message",   "category": "logwatch" },
-      { "command": "logwatch.copyRaw",        "title": "Copy Raw Line",  "category": "logwatch" },
-      { "command": "logwatch.showDetail",    "title": "View Details",   "category": "logwatch", "icon": "$(open-preview)" }
+      { "command": "logitcat.start",         "title": "Start",          "category": "logitcat", "icon": "$(play)" },
+      { "command": "logitcat.stop",          "title": "Stop",           "category": "logitcat", "icon": "$(stop)" },
+      { "command": "logitcat.openDashboard", "title": "Open Dashboard", "category": "logitcat", "icon": "$(browser)" },
+      { "command": "logitcat.clearAlerts",   "title": "Clear Alerts",   "category": "logitcat", "icon": "$(trash)" },
+      { "command": "logitcat.copyMessage",   "title": "Copy Message",   "category": "logitcat" },
+      { "command": "logitcat.copyRaw",        "title": "Copy Raw Line",  "category": "logitcat" },
+      { "command": "logitcat.showDetail",    "title": "View Details",   "category": "logitcat", "icon": "$(open-preview)" }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "logwatch",
-          "title": "logwatch",
+          "id": "logitcat",
+          "title": "logitcat",
           "icon": "media/icon.svg"
         }
       ]
     },
     "views": {
-      "logwatch": [
-        { "id": "logwatch.alerts", "name": "Alerts", "icon": "media/icon.svg" }
+      "logitcat": [
+        { "id": "logitcat.alerts", "name": "Alerts", "icon": "media/icon.svg" }
       ]
     },
     "menus": {
       "view/title": [
-        { "command": "logwatch.start",         "when": "view == logwatch.alerts", "group": "navigation@1" },
-        { "command": "logwatch.stop",          "when": "view == logwatch.alerts", "group": "navigation@2" },
-        { "command": "logwatch.openDashboard", "when": "view == logwatch.alerts", "group": "navigation@3" },
-        { "command": "logwatch.clearAlerts",   "when": "view == logwatch.alerts", "group": "navigation@4" }
+        { "command": "logitcat.start",         "when": "view == logitcat.alerts", "group": "navigation@1" },
+        { "command": "logitcat.stop",          "when": "view == logitcat.alerts", "group": "navigation@2" },
+        { "command": "logitcat.openDashboard", "when": "view == logitcat.alerts", "group": "navigation@3" },
+        { "command": "logitcat.clearAlerts",   "when": "view == logitcat.alerts", "group": "navigation@4" }
       ],
       "view/item/context": [
-        { "command": "logwatch.showDetail",  "when": "viewItem == alert", "group": "logwatch@1" },
-        { "command": "logwatch.copyMessage", "when": "viewItem == alert", "group": "logwatch@2" },
-        { "command": "logwatch.copyRaw",     "when": "viewItem == alert", "group": "logwatch@3" }
+        { "command": "logitcat.showDetail",  "when": "viewItem == alert", "group": "logitcat@1" },
+        { "command": "logitcat.copyMessage", "when": "viewItem == alert", "group": "logitcat@2" },
+        { "command": "logitcat.copyRaw",     "when": "viewItem == alert", "group": "logitcat@3" }
       ]
     },
     "configuration": {
-      "title": "logwatch",
+      "title": "logitcat",
       "properties": {
-        "logwatch.executablePath": {
+        "logitcat.executablePath": {
           "type": "string",
           "default": "",
-          "description": "Path to the logwatch binary (leave empty to auto-detect)"
+          "description": "Path to the logitcat binary (leave empty to auto-detect)"
         },
-        "logwatch.configPath": {
+        "logitcat.configPath": {
           "type": "string",
           "default": "",
-          "description": "Path to logwatch config .ini file"
+          "description": "Path to logitcat config .ini file"
         },
-        "logwatch.dashboardPort": {
+        "logitcat.dashboardPort": {
           "type": "number",
           "default": 9090,
-          "description": "Port for the logwatch web dashboard"
+          "description": "Port for the logitcat web dashboard"
         },
-        "logwatch.autoStart": {
+        "logitcat.autoStart": {
           "type": "boolean",
           "default": true,
-          "description": "Automatically start logwatch when a workspace is opened"
+          "description": "Automatically start logitcat when a workspace is opened"
         },
-        "logwatch.maxAlerts": {
+        "logitcat.maxAlerts": {
           "type": "number",
           "default": 200,
           "description": "Maximum number of alerts to keep in the panel"

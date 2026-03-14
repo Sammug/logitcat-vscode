@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 
 /**
- * DashboardPanel opens the logwatch web dashboard inside a VS Code WebView tab.
- * It simply loads the logwatch HTTP server in an iframe — zero duplication.
+ * DashboardPanel opens the logitcat web dashboard inside a VS Code WebView tab.
+ * It simply loads the logitcat HTTP server in an iframe — zero duplication.
  */
 export class DashboardPanel {
     private static current: DashboardPanel | undefined;
@@ -18,8 +18,8 @@ export class DashboardPanel {
 
     private constructor(port: number, extensionUri: vscode.Uri) {
         this.panel = vscode.window.createWebviewPanel(
-            'logwatch.dashboard',
-            'logwatch Dashboard',
+            'logitcat.dashboard',
+            'logitcat Dashboard',
             vscode.ViewColumn.Two,
             {
                 enableScripts:          true,
@@ -43,7 +43,7 @@ export class DashboardPanel {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>logwatch Dashboard</title>
+  <title>logitcat Dashboard</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #0d1117; color: #e6edf3; font-family: -apple-system, sans-serif; height: 100vh; display: flex; flex-direction: column; }
@@ -59,14 +59,14 @@ export class DashboardPanel {
 </head>
 <body>
   <div class="bar">
-    <span class="title">⚡ logwatch dashboard</span>
+    <span class="title">⚡ logitcat dashboard</span>
     <a class="open-btn" href="http://localhost:${port}" target="_blank">Open in Browser ↗</a>
   </div>
   <div id="content" style="display:flex;flex:1;flex-direction:column">
     <div class="offline" id="offline">
       <div style="font-size:32px">👁</div>
       <h2>Dashboard not reachable</h2>
-      <p>Start logwatch to see the dashboard</p>
+      <p>Start logitcat to see the dashboard</p>
       <button class="retry" onclick="tryLoad()">Try again</button>
     </div>
     <iframe id="frame" src="" style="display:none;flex:1"></iframe>
